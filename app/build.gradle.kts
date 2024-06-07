@@ -9,6 +9,7 @@ plugins {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":domain-implementations:jpa"))
+    implementation(project(":domain-implementations:jdbc"))
 
     implementation("com.github.freva:ascii-table:1.8.0")
     implementation("org.apache.logging.log4j:log4j-core:2.23.1")
