@@ -65,13 +65,8 @@ public class RequestRouterImpl implements RequestRouter {
 
         if (method == "POST") {
             var studentJson = request.getBody().get().toString();
-            var mapper = new ObjectMapper();
-            try {
-                var student = mapper.readValue(studentJson, Student.class);
-                controller.post(student);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+                controller.post(studentJson);
+
         } else if (method == "GET" && pathParts.length == 2) {
             responseJsonBody = controller.get();
 
@@ -81,13 +76,10 @@ public class RequestRouterImpl implements RequestRouter {
         } else if (method == "PUT") {
             var studentId = Integer.parseInt(pathParts[2]);
             var mapper = new ObjectMapper();
-            try {
-                var studentJson = request.getBody().get().toString();
-                var student = mapper.readValue(studentJson, Student.class);
-                controller.put(studentId, student);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+
+            var studentJson = request.getBody().get().toString();
+            controller.put(studentId, studentJson);
+
         }
         return responseJsonBody;
     }

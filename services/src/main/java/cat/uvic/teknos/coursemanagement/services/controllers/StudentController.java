@@ -7,7 +7,7 @@ import cat.uvic.teknos.coursemanagement.repositories.StudentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class StudentController implements Controller<Integer, Student>{
+public class StudentController implements Controller{
     private final RepositoryFactory repositoryFactory;
     private final ModelFactory modelFactory;
 
@@ -17,7 +17,7 @@ public class StudentController implements Controller<Integer, Student>{
     }
 
     @Override
-    public String get(Integer integer) {
+    public String get(int id) {
         // retrieve (get) student from db
         // serialize student in json format
 
@@ -38,17 +38,17 @@ public class StudentController implements Controller<Integer, Student>{
     }
 
     @Override
-    public void post(Student value) {
-        repositoryFactory.getStudentRepository().save(value);
+    public void post(String json) {
+        //repositoryFactory.getStudentRepository().save(value);
     }
 
     @Override
-    public void put(Integer key, Student value) {
+    public void put(int id, String json) {
 
     }
 
     @Override
-    public void delete(Integer key) {
+    public void delete(int id) {
 
     }
 }

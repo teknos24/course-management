@@ -18,7 +18,6 @@ public class App {
         RepositoryFactory repositoryFactory = (RepositoryFactory) Class.forName(properties.getProperty("repositoryFactory")).getConstructor().newInstance();
         ModelFactory modelFactory = (ModelFactory) Class.forName(properties.getProperty("modelFactory")).getConstructor().newInstance();
 
-        // TODO: fix raw type warning
         var controllers = new HashMap<String, Controller>();
 
         // TODO: review how to deserialize json objects
