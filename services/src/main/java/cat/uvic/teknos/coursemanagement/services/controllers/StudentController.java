@@ -1,12 +1,21 @@
 package cat.uvic.teknos.coursemanagement.services.controllers;
 
+import cat.uvic.teknos.coursemanagement.models.ModelFactory;
 import cat.uvic.teknos.coursemanagement.models.Student;
+import cat.uvic.teknos.coursemanagement.repositories.RepositoryFactory;
 import cat.uvic.teknos.coursemanagement.repositories.StudentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class StudentController implements Controller<Integer, Student>{
-    StudentRepository repository;
+    private final RepositoryFactory repositoryFactory;
+    private final ModelFactory modelFactory;
+
+    public StudentController(RepositoryFactory repositoryFactory, ModelFactory modelFactory) {
+        this.repositoryFactory = repositoryFactory;
+        this.modelFactory = modelFactory;
+    }
+
     @Override
     public String get(Integer integer) {
         // retrieve (get) student from db
@@ -17,7 +26,7 @@ public class StudentController implements Controller<Integer, Student>{
 
     @Override
     public String get() {
-        var students = repository.getAll();
+        var students = repositoryFactory.getStudentRepository().getAll();
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -30,7 +39,7 @@ public class StudentController implements Controller<Integer, Student>{
 
     @Override
     public void post(Student value) {
-        repository.save(value);
+        repositoryFactory.getStudentRepository().save(value);
     }
 
     @Override

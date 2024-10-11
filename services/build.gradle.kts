@@ -17,5 +17,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = "cat.uvic.teknos.coursemanagement.services.Server"
+    mainClass = "cat.uvic.teknos.coursemanagement.services.App"
 }
