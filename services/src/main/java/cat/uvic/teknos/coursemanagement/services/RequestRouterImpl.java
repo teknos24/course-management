@@ -63,17 +63,17 @@ public class RequestRouterImpl implements RequestRouter {
     private String manageStudents(RawHttpRequest request, String method, String[] pathParts, String responseJsonBody) {
         var controller = controllers.get(pathParts[1]);
 
-        if (method == "POST") {
+        if (method.equals("POST")) {
             var studentJson = request.getBody().get().toString();
                 controller.post(studentJson);
 
-        } else if (method == "GET" && pathParts.length == 2) {
+        } else if (method.equals("GET") && pathParts.length == 2) {
             responseJsonBody = controller.get();
 
-        } else if (method == "DELETE") {
+        } else if (method.equals("DELETE")) {
             var studentId = Integer.parseInt(pathParts[2]);
             controller.delete(studentId);
-        } else if (method == "PUT") {
+        } else if (method.equals("PUT")) {
             var studentId = Integer.parseInt(pathParts[2]);
             var mapper = new ObjectMapper();
 
