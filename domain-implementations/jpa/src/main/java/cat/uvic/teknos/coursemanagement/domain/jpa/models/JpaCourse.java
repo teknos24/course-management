@@ -2,53 +2,58 @@ package cat.uvic.teknos.coursemanagement.domain.jpa.models;
 
 import cat.uvic.teknos.coursemanagement.models.Course;
 import cat.uvic.teknos.coursemanagement.models.Student;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-import java.util.HashSet;
 import java.util.Set;
-public class JpaCourse implements Course {
-    private int id;
-    private int year;
-    private String name;
-    private Set<Student>  students = new HashSet<>();
 
-    @Override
+@Entity
+@Table(name = "course")
+public class JpaCourse implements Course {
+    @Id
+    @Column(name = "ID", nullable = false)
+    private int id;
+
+    @Column(name = "YEAR")
+    private int year;
+
+    @Column(name = "NAME")
+    private String name;
+
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
     public int getYear() {
         return year;
     }
 
-    @Override
     public void setYear(int year) {
         this.year = year;
     }
 
     @Override
     public Set<Student> getStudents() {
-        return students;
+        return Set.of();
     }
 
     @Override
     public void setStudents(Set<Student> students) {
-        this.students = students;
+
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
