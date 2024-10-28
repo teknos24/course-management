@@ -2,14 +2,9 @@ package cat.uvic.teknos.coursemanagement.services.controllers;
 
 import cat.uvic.teknos.coursemanagement.domain.jpa.models.JpaGenre;
 import cat.uvic.teknos.coursemanagement.domain.jpa.models.JpaStudent;
-import cat.uvic.teknos.coursemanagement.models.Genre;
-import cat.uvic.teknos.coursemanagement.models.Student;
 import cat.uvic.teknos.coursemanagement.services.utils.Mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Test;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.time.LocalDate;
 

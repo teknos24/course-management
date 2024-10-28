@@ -3,6 +3,7 @@ package cat.uvic.teknos.coursemanagement.services;
 import cat.uvic.teknos.coursemanagement.models.ModelFactory;
 import cat.uvic.teknos.coursemanagement.repositories.RepositoryFactory;
 import cat.uvic.teknos.coursemanagement.services.controllers.Controller;
+import cat.uvic.teknos.coursemanagement.services.controllers.CourseController;
 import cat.uvic.teknos.coursemanagement.services.controllers.StudentController;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class App {
 
         // TODO: review how to deserialize json objects
         controllers.put("students", new StudentController(repositoryFactory, modelFactory));
+        controllers.put("courses", new CourseController(repositoryFactory, modelFactory));
 
         var requestRouter = new RequestRouterImpl(controllers);
         new Server(requestRouter)
