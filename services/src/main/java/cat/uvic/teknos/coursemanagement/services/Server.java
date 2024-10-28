@@ -21,7 +21,7 @@ public class Server {
             while (!SHUTDOWN_SERVER) {
                 try (var clientSocket = serverSocket.accept()) {
                     var rawHttp = new RawHttp(RawHttpOptions.newBuilder().doNotInsertHostHeaderIfMissing().build());
-                    var request = rawHttp.parseRequest(clientSocket.getInputStream());
+                    var request = rawHttp.parseRequest(clientSocket.getInputStream()).eagerly();
 
                     var response = requestRouter.execRequest(request);
 

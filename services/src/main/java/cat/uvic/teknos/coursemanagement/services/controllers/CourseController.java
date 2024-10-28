@@ -1,8 +1,11 @@
 package cat.uvic.teknos.coursemanagement.services.controllers;
 
+import cat.uvic.teknos.coursemanagement.domain.jpa.models.JpaCourse;
+import cat.uvic.teknos.coursemanagement.models.Course;
 import cat.uvic.teknos.coursemanagement.models.ModelFactory;
 import cat.uvic.teknos.coursemanagement.repositories.RepositoryFactory;
 import cat.uvic.teknos.coursemanagement.services.exception.ResourceNotFoundException;
+import cat.uvic.teknos.coursemanagement.services.exception.ServerErrorException;
 import cat.uvic.teknos.coursemanagement.services.utils.Mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,20 +33,24 @@ public class CourseController implements Controller{
 
     @Override
     public String get() {
-        var students = repositoryFactory.getStudentRepository().getAll();
+        var students = repositoryFactory.getCourseRepository().getAll();
 
         try {
             return mapper.writeValueAsString(students);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new ResourceNotFoundException(e);
         }
-
     }
 
     @Override
     public void post(String json) {
-            //mapper.readValue(json, )
-        //repositoryFactory.getStudentRepository().save(value);
+        Course course = null;
+        try {
+            course = mapper.readValue(json, JpaCourse.class);
+        } catch (JsonProcessingException e) {
+            throw new ServerErrorException(e);
+        }
+        repositoryFactory.getCourseRepository().save(course);
     }
 
     @Override

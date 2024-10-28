@@ -62,7 +62,7 @@ public class RestClientImpl {
             }
 
             var request = rawHttp.parseRequest(
-                    "POST " + String.format("http://%s:%d/%s", host, port, path) + " HTTP/1.1\r\n" +
+                    method + " " + String.format("http://%s:%d/%s", host, port, path) + " HTTP/1.1\r\n" +
                             "Host: " + host + "\r\n" +
                             "User-Agent: RawHTTP\r\n" +
                             "Content-Length: " + body.length()+ "\r\n" +
