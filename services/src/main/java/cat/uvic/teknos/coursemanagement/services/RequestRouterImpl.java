@@ -69,7 +69,6 @@ public class RequestRouterImpl implements RequestRouter {
 
         } else if (method.equals("GET") && pathParts.length == 2) {
             responseJsonBody = controller.get();
-
         } else if (method.equals("DELETE")) {
             var studentId = Integer.parseInt(pathParts[2]);
             controller.delete(studentId);
