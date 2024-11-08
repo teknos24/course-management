@@ -1,11 +1,8 @@
 package cat.uvic.teknos.coursemanagement.services;
 
-import cat.uvic.teknos.coursemanagement.models.Student;
 import cat.uvic.teknos.coursemanagement.services.controllers.Controller;
-import cat.uvic.teknos.coursemanagement.services.controllers.StudentController;
 import cat.uvic.teknos.coursemanagement.services.exception.ResourceNotFoundException;
 import cat.uvic.teknos.coursemanagement.services.exception.ServerErrorException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import rawhttp.core.RawHttp;
 import rawhttp.core.RawHttpRequest;
@@ -37,7 +34,7 @@ public class RequestRouterImpl implements RequestRouter {
         
         switch (controllerName) {
             case "courses":
-                responseJsonBody = manageStudents(request, method, pathParts, responseJsonBody);
+                responseJsonBody = manageCourses(request, method, pathParts, responseJsonBody);
                 break;
 
         }
@@ -57,16 +54,17 @@ public class RequestRouterImpl implements RequestRouter {
             response = null;
         }
 
-        return null;
+        return response;
     }
 
-    private String manageStudents(RawHttpRequest request, String method, String[] pathParts, String responseJsonBody) {
+    private String manageCourses(RawHttpRequest request, String method, String[] pathParts, String responseJsonBody) {
         var controller = controllers.get(pathParts[1]);
 
         if (method.equals("POST")) {
-            var studentJson = request.getBody().get().toString();
-                controller.post(studentJson);
-
+            var json = request.getBody().get().toString();
+            controller.post(json);
+        } else if (method.equals("GET") && pathParts.length == 3) {
+            responseJsonBody = controller.get(Integer.parseInt(pathParts[2]));
         } else if (method.equals("GET") && pathParts.length == 2) {
             responseJsonBody = controller.get();
         } else if (method.equals("DELETE")) {

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class StudentController implements Controller{
     private final RepositoryFactory repositoryFactory;
     private final ModelFactory modelFactory;
+    private ObjectMapper mapper = new ObjectMapper();
 
     public StudentController(RepositoryFactory repositoryFactory, ModelFactory modelFactory) {
         this.repositoryFactory = repositoryFactory;
@@ -28,7 +29,6 @@ public class StudentController implements Controller{
     public String get() {
         var students = repositoryFactory.getStudentRepository().getAll();
 
-        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(students);
         } catch (JsonProcessingException e) {
@@ -39,6 +39,7 @@ public class StudentController implements Controller{
 
     @Override
     public void post(String json) {
+            //mapper.readValue(json, )
         //repositoryFactory.getStudentRepository().save(value);
     }
 

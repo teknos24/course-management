@@ -4,22 +4,22 @@ import cat.uvic.teknos.coursemanagement.models.*;
 
 public class JpaModelFactory implements ModelFactory {
     @Override
-    public Address createAddress() {
+    public JpaAddress createAddress() {
         return new JpaAddress();
     }
 
     @Override
-    public Course createCourse() {
+    public JpaCourse createCourse() {
         return new JpaCourse();
     }
 
     @Override
-    public Student courseStudent() {
+    public JpaStudent courseStudent() {
         return new JpaStudent();
     }
 
     @Override
-    public Genre createGenre() {
+    public JpaGenre createGenre() {
         return new JpaGenre();
     }
 }

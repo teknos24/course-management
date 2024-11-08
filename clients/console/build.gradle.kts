@@ -8,17 +8,15 @@ plugins {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":domain-implementations:jpa"))
-    implementation(project(":domain-implementations:jdbc"))
 
+    implementation("com.github.freva:ascii-table:1.8.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.23.1")
     implementation("com.athaydes.rawhttp:rawhttp-core:2.6.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0")
-
-
 }
 
 application {
     // Define the main class for the application.
-    mainClass = "cat.uvic.teknos.coursemanagement.services.App"
+    mainClass = "cat.uvic.teknos.coursemanagement.clients.console.App"
 }

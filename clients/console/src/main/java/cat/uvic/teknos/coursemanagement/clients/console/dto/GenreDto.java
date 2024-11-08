@@ -1,37 +1,28 @@
-package cat.uvic.teknos.coursemanagement.domain.jpa.models;
+package cat.uvic.teknos.coursemanagement.clients.console.dto;
 
 import cat.uvic.teknos.coursemanagement.models.Genre;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-import java.io.Serializable;
-
-@Entity
-@Table(name = "genre")
-public class JpaGenre implements Genre {
-    @Id
-    @Column(name = "ID", nullable = false)
+public class GenreDto implements Genre {
     private int id;
-
-    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
