@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 
-public class RestClientImpl {
+public class RestClientImpl implements RestClient {
     private final int port;
     private final String host;
 
@@ -21,21 +21,26 @@ public class RestClientImpl {
         this.port = port;
     }
 
+    @Override
     public <T> T get(String path, Class<T> returnType) throws RequestException {
         return execRequest("GET", path, null, returnType);
     }
 
+    @Override
     public <T> T[] getAll(String path, Class<T[]> returnType) throws RequestException {
         return execRequest("GET", path, null, returnType);
     }
 
+    @Override
     public void post(String path, String body) throws RequestException {
        execRequest("POST", path, body, Void.class);
     }
 
+    @Override
     public void put(String path, String body) throws RequestException {
         execRequest("PUT", path, body, Void.class);
     }
+    @Override
     public void delete(String path, String body) throws RequestException {
         execRequest("DELETE", path, body, Void.class);
     }
