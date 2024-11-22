@@ -21,16 +21,25 @@ public interface RestClient {
             this.key = key;
             this.value = value;
         }
-
-
     }
-    <T> T get(String path, Class<T> returnType, HeaderEntry... entries) throws RequestException;
 
-    <T> T[] getAll(String path, Class<T[]> returnType, HeaderEntry... entries) throws RequestException;
+    @FunctionalInterface
+    interface BodyDecoder {
+        String decode(String body);
+    }
 
-    void post(String path, String body, HeaderEntry... entries) throws RequestException;
+    interface BodyEncoder {
+        String encode(String body);
+    }
 
-    void put(String path, String body, HeaderEntry... entries) throws RequestException;
+
+    <T> T get(String path, Class<T> returnType, BodyDecoder decoder, HeaderEntry... entries) throws RequestException;
+
+    <T> T[] getAll(String path, Class<T[]> returnType, BodyDecoder decoder, HeaderEntry... entries) throws RequestException;
+
+    void post(String path, String body, BodyEncoder encoder, HeaderEntry... entries) throws RequestException;
+
+    void put(String path, String body, BodyEncoder encoder, HeaderEntry... entries) throws RequestException;
 
     void delete(String path, String body, HeaderEntry... entries) throws RequestException;
 }

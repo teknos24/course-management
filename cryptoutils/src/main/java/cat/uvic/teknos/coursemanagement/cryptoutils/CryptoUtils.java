@@ -2,9 +2,9 @@ package cat.uvic.teknos.coursemanagement.cryptoutils;
 
 import cat.uvic.teknos.coursemanagement.cryptoutils.exeptions.CryptoException;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -40,11 +40,25 @@ public class CryptoUtils {
     }
 
     public static String encrypt(String plainText, SecretKey key) {
-        return null ; // base64
+        try {
+            var cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            return toBase64(cipher.doFinal(plainText.getBytes()));
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |
+                 BadPaddingException e) {
+            throw new CryptoException(e);
+        }
     }
 
     public static String decrypt(String encryptedTextBase64, SecretKey key) {
-        return null;
+        try {
+            var cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            return toBase64(cipher.doFinal(fromBase64(encryptedTextBase64)));
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |
+                 BadPaddingException e) {
+            throw new CryptoException(e);
+        }
     }
 
     public static String asymmetricEncrypt(String plainTextBase64, Key key) {

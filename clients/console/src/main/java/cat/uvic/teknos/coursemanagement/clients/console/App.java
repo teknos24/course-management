@@ -46,15 +46,21 @@ public class App {
             switch (command) {
                 case "1" -> {
                     try {
-                        var clients = restClient.getAll("/courses", CourseDto[].class);
+                        var clients = restClient.getAll("/courses", CourseDto[].class, null);
                     } catch (RequestException e) {
                         throw new RuntimeException(e);
                     }
                 }
                 case "2" -> {
                     var courseId = readLine(in);
+                    var secretKey = CryptoUtils.createSecretKey();
                     try {
-                        var client = restClient.get("/courses/" + courseId, CourseDto.class);
+                        var client = restClient.get(
+                                "/courses/" + courseId,
+                                CourseDto.class,
+                                (b) -> {
+                                    return CryptoUtils.decrypt(b, secretKey);
+                                });
                     } catch (RequestException e) {
                         throw new RuntimeException(e);
                     }
@@ -68,11 +74,14 @@ public class App {
                         var body = Mappers.get().writeValueAsString(course);
                         var bodyHash = CryptoUtils.getHash(body);
                         var secretKey = CryptoUtils.createSecretKey();
-                        
+
                         restClient.post(
                                 "/courses",
                                 Mappers.get().writeValueAsString(course),
-                                new RestClient.HeaderEntry("SecretKey", CryptoUtils.toBase64(secretKey.getEncoded())),
+                                (b) -> {
+                                    return CryptoUtils.decrypt(b, secretKey);
+                                },
+                                new RestClient.HeaderEntry("Secret-key", CryptoUtils.toBase64(secretKey.getEncoded())),
                                 new RestClient.HeaderEntry("Body-hash", bodyHash));
                     } catch (RequestException | JsonProcessingException e) {
                         out.println(e.getMessage());

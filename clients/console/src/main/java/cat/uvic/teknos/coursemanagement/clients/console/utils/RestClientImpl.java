@@ -23,34 +23,36 @@ public class RestClientImpl implements RestClient {
     }
 
     @Override
-    public <T> T get(String path, Class<T> returnType, HeaderEntry... entries) throws RequestException {
-        return execRequest("GET", path, null, returnType, entries);
+    public <T> T get(String path, Class<T> returnType, BodyDecoder decoder,HeaderEntry... entries) throws RequestException {
+        return execRequest("GET", path, null, returnType, decoder, null, entries);
     }
 
     @Override
-    public <T> T[] getAll(String path, Class<T[]> returnType, HeaderEntry... entries) throws RequestException {
-        return execRequest("GET", path, null, returnType, entries);
+    public <T> T[] getAll(String path, Class<T[]> returnType, BodyDecoder decoder, HeaderEntry... entries) throws RequestException {
+        return execRequest("GET", path, null, returnType, decoder, null, entries);
     }
 
     @Override
-    public void post(String path, String body, HeaderEntry... entries) throws RequestException {
-       execRequest("POST", path, body, Void.class, entries);
+    public void post(String path, String body, BodyEncoder encoder,HeaderEntry... entries) throws RequestException {
+       execRequest("POST", path, body, Void.class, null, encoder, entries);
     }
 
     @Override
-    public void put(String path, String body, HeaderEntry... entries) throws RequestException {
-        execRequest("PUT", path, body, Void.class, entries);
+    public void put(String path, String body, BodyEncoder encoder, HeaderEntry... entries) throws RequestException {
+        execRequest("PUT", path, body, Void.class, null, encoder, entries);
     }
     @Override
     public void delete(String path, String body, HeaderEntry... entries) throws RequestException {
-        execRequest("DELETE", path, body, Void.class, entries);
+        execRequest("DELETE", path, body, Void.class, null, null, entries);
     }
 
-    protected <T> T execRequest(String method, String path, String body, Class<T> returnType, HeaderEntry... entries) throws RequestException {
+    protected <T> T execRequest(String method, String path, String body, Class<T> returnType, BodyDecoder decoder, BodyEncoder encoder, HeaderEntry... entries) throws RequestException {
         var rawHttp = new RawHttp();
         try (var socket = new Socket(host, port)) {
             if (body == null) {
                 body = "";
+            } else {
+                body = encoder != null ? encoder.encode(body) : body;
             }
 
             var request = rawHttp.parseRequest(
@@ -70,7 +72,8 @@ public class RestClientImpl implements RestClient {
             T returnValue = null;
             var response = rawHttp.parseResponse(socket.getInputStream()).eagerly();
             if (!returnType.isAssignableFrom(Void.class)) {
-                returnValue = Mappers.get().readValue(response.getBody().get().toString(), returnType);
+                var responseBody = decoder != null ? decoder.decode(response.getBody().get().toString()) : response.getBody().get().toString();
+                returnValue = Mappers.get().readValue(responseBody, returnType);
             }
 
             return returnValue;
