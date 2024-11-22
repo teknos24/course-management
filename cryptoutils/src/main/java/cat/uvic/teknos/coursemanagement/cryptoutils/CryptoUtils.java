@@ -55,11 +55,11 @@ public class CryptoUtils {
         return null;
     }
 
-    private static String toBase64(byte[] bytes) {
+    public static String toBase64(byte[] bytes) {
         return encoder.encodeToString(bytes);
     }
 
-    private static byte[] fromBase64(String base64) {
+    public static byte[] fromBase64(String base64) {
         return decoder.decode(base64);
     }
 }

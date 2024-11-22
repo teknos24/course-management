@@ -16,10 +16,22 @@ class CryptoUtilsTest {
 
     @Test
     void createSecretKey() {
+        var secretKey = CryptoUtils.createSecretKey();
+
+        assertNotNull(secretKey);
+
+        var bytes = secretKey.getEncoded();
+        System.out.println(CryptoUtils.toBase64(bytes));
     }
 
     @Test
     void decodeSecretKey() {
+        var secretKeyBase84 = "jaruKzlE7xerbNSjxiVjZtuAeYWrcyMGsA8TaTqZ8AM=";
+
+        var secretKey = CryptoUtils.decodeSecretKey(secretKeyBase84);
+
+        assertNotNull(secretKey);
+        assertEquals("AES", secretKey.getAlgorithm());
     }
 
     @Test

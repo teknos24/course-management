@@ -6,6 +6,7 @@ import cat.uvic.teknos.coursemanagement.clients.console.exceptions.RequestExcept
 import cat.uvic.teknos.coursemanagement.clients.console.utils.Mappers;
 import cat.uvic.teknos.coursemanagement.clients.console.utils.RestClient;
 import cat.uvic.teknos.coursemanagement.clients.console.utils.RestClientImpl;
+import cat.uvic.teknos.coursemanagement.cryptoutils.CryptoUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.BufferedReader;
@@ -64,7 +65,15 @@ public class App {
                     course.setName(readLine(in));
 
                     try {
-                        restClient.post("/courses", Mappers.get().writeValueAsString(course));
+                        var body = Mappers.get().writeValueAsString(course);
+                        var bodyHash = CryptoUtils.getHash(body);
+                        var secretKey = CryptoUtils.createSecretKey();
+                        
+                        restClient.post(
+                                "/courses",
+                                Mappers.get().writeValueAsString(course),
+                                new RestClient.HeaderEntry("SecretKey", CryptoUtils.toBase64(secretKey.getEncoded())),
+                                new RestClient.HeaderEntry("Body-hash", bodyHash));
                     } catch (RequestException | JsonProcessingException e) {
                         out.println(e.getMessage());
                     }
