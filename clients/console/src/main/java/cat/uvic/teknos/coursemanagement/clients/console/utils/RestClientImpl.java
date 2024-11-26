@@ -85,7 +85,7 @@ public class RestClientImpl implements RestClient {
     private String addHeaders(HeaderEntry[] entries) {
         var headers = new StringBuilder();
         for (var entry : entries) {
-            headers.append("\"").append(entry.getKey()).append("\": \"").append(entry.getValue()).append("\"\r\n");
+            headers.append(entry.getKey()).append(": ").append(entry.getValue()).append("\\r\\n");
         }
 
         return headers.toString();

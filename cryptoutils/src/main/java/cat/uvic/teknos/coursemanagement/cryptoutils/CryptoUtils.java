@@ -54,7 +54,7 @@ public class CryptoUtils {
         try {
             var cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, key);
-            return toBase64(cipher.doFinal(fromBase64(encryptedTextBase64)));
+            return new String(cipher.doFinal(fromBase64(encryptedTextBase64)));
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException e) {
             throw new CryptoException(e);

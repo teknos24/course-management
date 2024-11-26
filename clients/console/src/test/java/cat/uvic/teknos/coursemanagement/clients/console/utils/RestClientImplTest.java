@@ -4,8 +4,6 @@ import cat.uvic.teknos.coursemanagement.clients.console.dto.CourseDto;
 import cat.uvic.teknos.coursemanagement.clients.console.exceptions.RequestException;
 import cat.uvic.teknos.coursemanagement.cryptoutils.CryptoUtils;
 import cat.uvic.teknos.coursemanagement.models.Course;
-import java.util.List;
-import cat.uvic.teknos.coursemanagement.models.Student;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,19 +40,20 @@ class RestClientImplTest {
         var body = Mappers.get().writeValueAsString(course);
         var encryptedBody = CryptoUtils.encrypt(body, secretKey);
 
-        var path = "courses/1";
+        var path = "/courses/1";
         mockServer
-                .when(HttpRequest.request().withPath(path))
+                .when(HttpRequest.request().withPath(path).withMethod("GET"))
                 .respond(HttpResponse.response().withBody(encryptedBody));
 
         var restClient = new RestClientImpl("localhost", 8888);
         try {
             var courseReturned = restClient.get(
-                    path,
+                    "courses/1",
                     CourseDto.class,
                     (b) -> {
                         return CryptoUtils.decrypt(b, secretKey);
-                    });
+                    },
+                    new RestClient.HeaderEntry("Test", "test"));
             assertNotNull(courseReturned);
 
         } catch (RequestException e) {
