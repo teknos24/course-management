@@ -1,6 +1,6 @@
 # Keytool commands
 
-keytool -list -v -keystore sever.jks
+keytool -list -v -keystore server.jks
 
 1. keytool -genkey -keyalg RSA -alias server -keystore server.p12 -storepass Teknos01. -validity 360 -keysize 2048
 2. keytool -genkey -keyalg RSA -alias client1 -keystore client1.p12 -storepass Teknos01. -validity 360 -keysize 2048 
